@@ -1,51 +1,135 @@
 // import React from 'react' class ต้อง extents React.Component
 import React, { Component } from 'react'
 
+//Render Example
 const styles = {
   color: "green",
   fontStyle: "italic"
 }
 const str = <h1 style={styles}>Learn JSX</h1>
-
-function greeting(name) {
-  return `Hello, ${name}`
-}
-
 const loggedIn = false;
 const error1 = true;
 const error2 = false;
 const items = ['Bread', 'Milk', 'Eggs']
-
-function handleEvent(e) {
-  alert('Button clicked')
-  console.log(e)
+function greeting(name) {
+  return `Hello, ${name}`
 }
 
+// Function Component
 function FunctionComponent() {
   return <h1>This is a Function Component.</h1>;
 }
 
+// Class Component
 class ClassComponent extends Component {
-
+  //this คือ ตัวแทนของcomponent ที่เป็นเจ้าของ method eg.(constructor,render,changeColor,shoot)
   constructor(props) {
     super(props);
+    this.state = { 
+      brand :'Ford',
+      model: 'Mustang',
+      color: 'Red',
+      year: 2020
+    }
+    this.shoot_none_arrow = this.shoot_none_arrow.bind(this) //bind this
+  }
+
+  // Event handler
+  changeColor = () =>{ 
+    this.setState({ color: 'Green'});
+  }
+
+  shoot_none_arrow() { //ถ้าไม่ทำ arrow function ต้องทำ bind this
+    alert(this);
+  }
+  shoot_nr_pram(a) { //ถ้าไม่ทำ arrow function ต้องทำ bind this
+    alert(a);
+  }
+  shoot_nr_ev(a,b) { //ถ้าไม่ทำ arrow function ต้องทำ bind this
+    alert(b.type);
+  }
+  
+  shoot_arrow= () => {
+    alert(this);
+  }
+  shoot_ar_pram = (a) => {
+    alert(a);
+  }
+  shoot_ar_ev = (a,b) => {
+    alert(b.type);
   }
 
   render() {
     return (
     <React.Fragment>
-    {/* <h1>This is a Class Component.</h1> 
+      
+    <h1>This is a Class Component.</h1> 
     <p> This is a p tags.</p>
-    <h1>This is a Props. My name is {this.props.firstname} {this.props.lastname}</h1>
-    */}
+
+    {/* Props */} 
+    {/* <h1>This is a Props. My name is {this.props.firstname} {this.props.lastname}</h1> */}
     <h1>My car name is {this.props.brand.name} Model {this.props.brand.model}</h1>
     
+    {/* State */}
+    <h1>My Car : {this.state.brand}</h1>
+    <ul>
+      <li>It is a {this.state.color}</li>
+      <li>and model is {this.state.model}</li>
+      <li>From {this.state.year}</li>
+    </ul>
+
+    {/* Set State */}
+    <button onClick={this.changeColor}>Change Color</button>
+    <br />
+
+    {/* Event Example */}
+    <button onClick={this.shoot_none_arrow}>Take the none arrow shot!</button>
+    <button onClick={this.shoot_nr_pram.bind(this,"Goals")}>Take the none arrow shot alert!</button>
+    <button onClick={this.shoot_nr_ev.bind(this,"Goals")}>Take the none arrow shot event!</button>
+    <br />
+    <button onClick={this.shoot_arrow}>Take the arrow shot!</button>
+    <button onClick={() => this.shoot_ar_pram("Goal")}>Take the arrow shot alert!</button>
+    <button onClick={(ev) => this.shoot_ar_ev("Goal",ev)}>Take the arrow shot event!</button>
+
+
+
     </React.Fragment>
     )
   }
 } 
 
+function handleEvent(e) {//Event Handling
+  alert('Button clicked')
+  console.log(e)
+}
+
+class MyForm extends Component{
+  constructor(props) {
+    super(props);
+    this.state = { 
+      brand :'Ford',
+      model: 'Mustang',
+      color: 'Red',
+      year: 2020
+    }
+  }
+
+  render() {
+    return(
+    <>
+    <from action="">
+      <h1>Hello</h1>
+      <p>Enter your name: </p>
+      <input type="text"></input>
+    </from>
+    </>
+    )
+  }
+
+}
+
 function App() {
+  //props property 
   const carInfo = {
     name:"Ford",
     model:"Mustang"
@@ -77,7 +161,11 @@ function App() {
 
       {/* Event Handling */}
       <button onClick={handleEvent}>Text Click</button>
-  
+      
+      {/* Form */}
+      <MyForm />
+
+
     </div>
   );
 }
