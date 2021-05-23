@@ -15,12 +15,12 @@ function greeting(name) {
   return `Hello, ${name}`
 }
 
-// Function Component
+// !Function Component
 function FunctionComponent() {
   return <h1>This is a Function Component.</h1>;
 }
 
-// Class Component
+// !Class Component
 class ClassComponent extends Component {
   //this คือ ตัวแทนของcomponent ที่เป็นเจ้าของ method eg.(constructor,render,changeColor,shoot)
   constructor(props) {
@@ -103,25 +103,38 @@ function handleEvent(e) {//Event Handling
   console.log(e)
 }
 
+// !Form Class Component
 class MyForm extends Component{
   constructor(props) {
     super(props);
     this.state = { 
-      brand :'Ford',
-      model: 'Mustang',
-      color: 'Red',
-      year: 2020
+      username:''
     }
   }
 
+  myChangeHandler = (event) =>{
+    this.setState({username: event.target.value})
+  }
+
+  mySubmitHandler = (event) => {
+    event.preventDefault(); // ป้องกันหน้าจอ refresh
+    alert("You are submitting " + this.state.username);
+  }
+
   render() {
+    let header ="";
+    if(this.state.username){
+      header = <h1>Hello Conditional Rendering {this.state.username}</h1>
+    }else{header = ""}
     return(
     <>
-    <from action="">
-      <h1>Hello</h1>
+    <form onSubmit={this.mySubmitHandler}>
+      <h1>Hello {this.state.username}</h1>
+      {header}
       <p>Enter your name: </p>
-      <input type="text"></input>
-    </from>
+      <input type="text" onChange={this.myChangeHandler}></input>
+      <input type="submit" />
+    </form>
     </>
     )
   }
@@ -143,6 +156,9 @@ function App() {
       <ClassComponent firstname="Stan" lastname="Smith"/> */}
       <ClassComponent brand={carInfo}/> 
 
+      {/* Form */}
+      <MyForm />
+
       <FunctionComponent />
       {str}
       {greeting('John')}
@@ -162,10 +178,6 @@ function App() {
       {/* Event Handling */}
       <button onClick={handleEvent}>Text Click</button>
       
-      {/* Form */}
-      <MyForm />
-
-
     </div>
   );
 }
