@@ -1,0 +1,18 @@
+$redColor: red;
+$whiteColor: white;
+$padding: 20px;
+
+.box{
+  padding: $padding;
+  background-color: $redColor;
+  color: $whiteColor;
+
+  h1{
+    font-size: 4rem;
+    color: yellow;
+  }
+
+  p{
+    color: blue;
+  }
+}
