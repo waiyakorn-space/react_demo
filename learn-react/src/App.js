@@ -1,5 +1,8 @@
 // import React from 'react' class ต้อง extents React.Component
 import React, { Component } from 'react'
+import './App.css';
+import style_module from './mystyle.module.css' 
+import './mysass.scss'
 
 //Render Example
 const styles = {
@@ -108,16 +111,36 @@ class MyForm extends Component{
   constructor(props) {
     super(props);
     this.state = { 
-      username:''
+      username:'',
+      age:null,
+      myCar:'Honda',
+      description:'The context of a textarea goes in the value of attribute',
+      errormessage:''
     }
   }
 
   myChangeHandler = (event) =>{
     this.setState({username: event.target.value})
   }
+  myChangeH_multi = (event) =>{
+    let myName = event.target.name
+    let val = event.target.value
+    let err =''
+    if(myName === 'age'){
+      if(val !== "" && !Number(val)){
+        err = <strong style={{color : 'red'}}> Your age must be a number</strong>
+      }
+    }
+    this.setState({errormessage : err})
+    this.setState({[myName]: val})
+  }
 
   mySubmitHandler = (event) => {
     event.preventDefault(); // ป้องกันหน้าจอ refresh
+    let age = this.state.age
+    if(!Number(age)){
+      alert('Your age must be a number')
+    }
     alert("You are submitting " + this.state.username);
   }
 
@@ -135,10 +158,64 @@ class MyForm extends Component{
       <input type="text" onChange={this.myChangeHandler}></input>
       <input type="submit" />
     </form>
+
+    <form>
+      <h1>Hello Multiple fields {this.state.username} {this.state.age} {this.state.car}</h1>
+      <p>Enter your name</p>
+      <input type="text" name="username" onChange={this.myChangeH_multi}></input>
+      <p>Enter your age</p>
+      <input type="text" name="age" onChange={this.myChangeH_multi} />
+      {this.state.errormessage}
+      <textarea value = {this.state.description} />
+      <select value = {this.state.myCar}>
+        <option value="Ford">Ford</option>
+        <option value="Honda">Honda</option>
+        <option value="Lambo">Lambo</option>
+      </select>
+      <input type="submit" />
+    </form>
     </>
     )
   }
+}
 
+// !Style test
+class StylesEx extends Component{
+  constructor(props) {
+    super(props);
+// this.state = {}
+  }
+
+  render(){
+    const myStyle = {
+      color:"white",
+      backgroundColor:"darkgreen",
+      padding: "10px",
+      fontFamily:"Arial"
+    }
+    return(
+    <>
+      {/* Inline Styling */}
+      <h1 style={{color : "darkblue"}}>Hello styles!</h1>
+      {/* camelCase property name */}
+      <p style={{backgroundColor:"salmon"}}>Add a little style</p>
+      {/* Styling with javascript object */}
+      <h1 style={myStyle}>This is using javascript object styling</h1>
+      {/* Import App.css */}
+      <div className="div1">
+        Some text
+      </div>
+      {/* Style Module */}
+      <h1 className={style_module.bigBlue}>Hello CSS Module</h1>
+      {/* Using Sass for styling*/}
+      <div className="box">
+        <h1>This is a title</h1>
+        <p>This is a paragraph</p>
+      </div>
+
+    </>
+    );
+  }
 }
 
 function App() {
@@ -158,6 +235,9 @@ function App() {
 
       {/* Form */}
       <MyForm />
+      
+      {/* Style Example */}
+      <StylesEx />
 
       <FunctionComponent />
       {str}
@@ -183,3 +263,4 @@ function App() {
 }
 
 export default App;
+
